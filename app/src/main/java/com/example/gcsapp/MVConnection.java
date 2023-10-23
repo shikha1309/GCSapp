@@ -8,7 +8,7 @@ import android.widget.Toast;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
-
+import java.net.UnknownHostException;
 
 import io.dronefleet.mavlink.MavlinkConnection;
 import io.dronefleet.mavlink.MavlinkMessage;
@@ -17,56 +17,37 @@ import io.dronefleet.mavlink.common.CommandLong;
 public class MVConnection {
 
     static MavlinkConnection connection;
-   static MavlinkMessage message;
+    MavlinkMessage message;
 
-    static Socket socket;
-   static Handler mHandler;
-     static Drone_Message drone_message = new Drone_Message();
-
-
-    public MVConnection ( Handler mHandler){
+    Socket socket;
+    Handler mHandler;
 
 
-          MVConnection.mHandler =mHandler;
-      }
+    public MVConnection (Handler mHandler){
+          this.mHandler=mHandler;
+    }
 
-
-    public static void Create_Connection(Spinner connect_type) {
-        new Thread(() -> {
+    public  void Create_Connection (Spinner connect_type ) {
+        new Thread(() ->{
             int connect_num = connect_type.getSelectedItemPosition();
             if(connection == null){
                 try {
                   if (connect_num  == 0) {
+
                       socket = new Socket("127.0.0.1", 14550);
-//                      socket = new Socket("192.168.1.27", 14550);
-//                    socket = new Socket("192.168.1.3", 14550);
                       connection = MavlinkConnection.create(socket.getInputStream(), socket.getOutputStream());
-                       Log.i("status" ,"connection done");
+                      Toast.makeText(connect_type.getContext(), "your connection is done" ,Toast.LENGTH_SHORT).show();
 
                   }else {
-                     Log.i("information" , "connection is not done");
+
                   }
-//
-//                    while ((message = connection.next())!= null ) {
-//
-//                         // If receive data, push them to Drone_Message.java
-//
-//                              drone_message.Message_classify(message);
-//                               mHandler .obtainMessage(100,"connection is done").sendToTarget();
-//
-//
-////                        String status ="Your connection is done";
-////                        drone_message.Message_classify(message);
-////                        mHandler .obtainMessage();
-//
-//                     }
-
-
                 }
-                // Receiving Message
+
                 catch (EOFException eof) {
                     Log.i("MVConnection", "Connection Failed (SITL crush)");
 
+                } catch (UnknownHostException e) {
+                    throw new RuntimeException(e);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -77,10 +58,10 @@ public class MVConnection {
     }
 
 
-    public static void Send(CommandLong commandLong){
+    public void Send(CommandLong commandLong){
 
         new Thread(() -> {
-            if (connection!=null) {
+            if (connection==null) {
                 try {
                     connection.send1(255,0,commandLong);
 
@@ -88,7 +69,13 @@ public class MVConnection {
                     e.printStackTrace();
                 }
             }
+
+
         }).start();
 
     }
+
+
+
+
 }
