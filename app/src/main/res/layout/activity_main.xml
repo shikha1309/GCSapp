@@ -35,27 +35,40 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <Button
+            android:onClick="connect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CONNECT">
+            android:text="@string/connect">
+
+        </Button>
+
+
+        <TextView
+            android:id="@+id/TextViewConnection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/waiting_connect"
+            android:textColor="#000000"
+            android:textSize="15sp" />
+        <Button
+            android:onClick="arm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/arm">
 
         </Button>
         <Button
+            android:onClick="disarm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ARM">
+            android:text="@string/disarm">
 
         </Button>
         <Button
+          android:onClick="takeOff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DISARM">
-
-        </Button>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TAKE-OFF">
+            android:text="@string/take_off">
 
         </Button>
     </LinearLayout>
@@ -66,10 +79,28 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textView_FlightMode"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/flight_mode_waiting_connect"
+            android:textColor="@color/black"
+            android:textSize="15sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/textview_isArmed"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Status of Arm"
+            android:textColor="@color/black">
+        </TextView>
+
+        <TextView
             android:id="@+id/Command"
             android:text="CMD"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="80dp">
 
         </TextView>
 
@@ -78,7 +109,7 @@
             android:id="@+id/Command_Ack"
             android:text="CMD_ACK"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="50dp">
 
         </TextView>
 
